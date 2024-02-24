@@ -31,10 +31,10 @@ async def forward_files(event):
                     if cleaned_name not in forwarded_files:
                         forwarded_files.add(cleaned_name)
                         caption = f"<b>{cleaned_name}</b>\n\nBy @FSearch2bot"
-                        await datgbot.send_message(tochnl, caption, parse_mode='html')
+                        await app.send_message(TO_CHANNEL_ID, caption, parse_mode='html')
                 else:
                     # Forward text messages
-                    await datgbot.send_message(tochnl, event.text, link_preview=False, parse_mode='html')
+                    await app.send_message(TO_CHANNEL_ID, event.text, link_preview=False, parse_mode='html')
         except Exception as e:
             print(f"Error: {e}")
             print("TO_CHANNEL ID is wrong or I can't send messages there (make me admin).")
