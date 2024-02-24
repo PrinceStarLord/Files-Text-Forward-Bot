@@ -13,7 +13,7 @@ forwarded_files = set()
 def start(client, message):
     message.reply_text("I'm a Files/Video/Documents - Text Forward bot !!")
 
-@app.on_message(filters.chat(FROM_CHANNEL) & filters.)
+@app.on_message(filters.chat(FROM_CHANNEL))
 async def forward_files(event): 
     if not event.is_private:
         try:
