@@ -6,6 +6,9 @@ from config import *
 
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
+TO_CHANNEL_ID = os.environ.get("TO_CHANNEL_ID", "-1001843660143")
+FROM_CHANNEL = os.environ.get("FROM_CHANNEL", "-1001225782985")
+
 forwarded_files = set()
 
 @app.on_message(filters.command("start") & filters.private)
