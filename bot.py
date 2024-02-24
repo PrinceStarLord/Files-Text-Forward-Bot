@@ -18,24 +18,15 @@ async def start(client, message):
 @app.on_message(filters.chat(FROM_CHANNEL))
 async def forward_message(client, message):
     try:
-        # Check if the message is not from a private chat and not a poll
         if not message.chat.type == "private" and not message.poll:
-            # Check if the message contains media
             if message.document or message.video:
-                if message.document:
-                    file_name = re.sub(r'\.(mkv|mp4)', '', message.document.file_name)  # Remove .mkv and .mp4 extensions
-                else:
-                    file_name = re.sub(r'\.(mkv|mp4)', '', message.video.file_name)  # Remove .mkv and .mp4 extensions
-                
-                # Remove all types of symbols
-                file_name = re.sub(r'[^\w\s]', '', file_name)
+                media = message.document or message.video
+                file_name = re.sub(r'[^\w\s.-]', '', media.file_name)  # Remove special characters
                 file_name = file_name.replace('_', ' ')  # Replace underscores with blank space
+                file_name = re.sub(r'\.(mkv|mp4)', '', file_name)  # Remove .mkv and .mp4 extensions
                 caption = f"**{file_name} Uploaded By : @FSearch2Bot**"
                 await app.send_message(chat_id=TO_CHANNEL_ID, text=caption, disable_notification=True)
-            else:
-                text = f"**{message.text}\nUploaded By : @FSearch2Bot**"
-                await app.send_message(chat_id=TO_CHANNEL_ID, text=text, disable_notification=True)
-            print("Message forwarded successfully.")
+                print("Message forwarded successfully.")
     except Exception as e:
         print(f"Error forwarding message: {e}")
 
