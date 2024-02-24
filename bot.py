@@ -24,7 +24,7 @@ async def forward_message(client, message):
                 file_name = re.sub(r'[^\w\s.-]', '', media.file_name)  # Remove special characters
                 file_name = file_name.replace('_', ' ')  # Replace underscores with blank space
                 file_name = re.sub(r'\.(mkv|mp4)', '', file_name)  # Remove .mkv and .mp4 extensions
-                caption = f"**{file_name} Uploaded By : @FSearch2Bot**"
+                caption = f"**{file_name} \n\nUploaded By : @FSearch2Bot**"
                 await app.send_message(chat_id=TO_CHANNEL_ID, text=caption, disable_notification=True)
                 print("Message forwarded successfully.")
     except Exception as e:
