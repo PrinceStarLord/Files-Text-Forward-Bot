@@ -9,7 +9,7 @@ app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 forwarded_files = set()
 
-@app.on_message(Filters.command("start"))
+@app.on_message(filters.command("start"))
 def start(client, message):
     message.reply_text("I'm a Files/Video/Documents - Text Forward bot !!")
 
