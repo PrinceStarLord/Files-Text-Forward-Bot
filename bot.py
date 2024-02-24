@@ -14,22 +14,30 @@ def start(client, message):
     message.reply_text("I'm a Files/Video/Documents - Text Forward bot !!")
 
 @app.on_message(filters.chat(FROM_CHANNEL))
-async def forward_files(client, message):
-    try:
-        if message.media or message.text:
-            if message.media:
-                original_name = message.document.file_name if message.document else message.video.file_name if message.video else message.audio.file_name if message.audio else "Unknown"
-                cleaned_name = re.sub(r'[-_+=?:;\'"{\}\[\]\\\/()]+', ' ', original_name)
-                cleaned_name = re.sub(r'\.\w+', '', cleaned_name)
+async def forward_files(event): 
+    if not event.is_private:
+        try:
+            # Check if the message contains any content (file, video, document, or text)
+            if event.file or event.video or event.document or event.text:
+                if event.file or event.video or event.document:
+                    original_name = event.file.name if event.file else (event.video.attributes[0].file_name if event.video else event.document.attributes[0].file_name)
+                    
+                    # Remove symbols and replace underscores with spaces
+                    cleaned_name = re.sub(r'[-_+=?:;\'"{\}\[\]\\\/()]+', ' ', original_name)
+                    
+                    # Remove file extensions
+                    cleaned_name = re.sub(r'\.\w+', '', cleaned_name)
 
-                caption = f"<b>{cleaned_name}</b>\n\nUploaded Here : @FSearch2bot"
-                await app.send_message(TO_CHANNEL_ID, caption, parse_mode='html')
-
-            elif message.text:
-                await app.send_message(TO_CHANNEL_ID, message.text, link_preview=False, parse_mode='html')
-    except Exception as e:
-        print(f"Error: {e}")
-        print("TO_CHANNEL ID is wrong or I can't send messages there (make me admin).")
+                    if cleaned_name not in forwarded_files:
+                        forwarded_files.add(cleaned_name)
+                        caption = f"<b>{cleaned_name}</b>\n\nBy @FSearch2bot"
+                        await datgbot.send_message(tochnl, caption, parse_mode='html')
+                else:
+                    # Forward text messages
+                    await datgbot.send_message(tochnl, event.text, link_preview=False, parse_mode='html')
+        except Exception as e:
+            print(f"Error: {e}")
+            print("TO_CHANNEL ID is wrong or I can't send messages there (make me admin).")
 
 print("Bot has started.")
 app.run()
