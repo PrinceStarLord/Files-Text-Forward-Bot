@@ -9,11 +9,11 @@ app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 forwarded_files = set()
 
-@app.on_message(filters.command("start"))
+@app.on_message(filters.command("start") & filters.private)
 def start(client, message):
     message.reply_text("I'm a Files/Video/Documents - Text Forward bot !!")
 
-@app.on_message(filters.chat(FROM_CHANNEL))
+@app.on_message(filters.chat(FROM_CHANNEL) & filters.)
 async def forward_files(event): 
     if not event.is_private:
         try:
