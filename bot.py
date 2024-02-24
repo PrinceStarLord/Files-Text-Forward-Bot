@@ -21,18 +21,17 @@ async def forward_message(client, message):
         # Check if the message is not from a private chat and not a poll
         if not message.chat.type == "private" and not message.poll:
             # Check if the message contains media
-            if message.document:
-                file_name = re.sub(r'[^\w\s.-]', '', message.document.file_name)  # Remove special characters
+            if message.document or message.video:
+                file_name = re.sub(r'[^\w\s.-]', '', message.document.file_name) if message.document else re.sub(r'[^\w\s.-]', '', message.video.file_name)  # Remove special characters
                 file_name = file_name.replace('_', ' ')  # Replace underscores with blank space
-                caption = f"**{message.caption}\nUploaded By : @FSearch2Bot**\nOriginal File Name: {file_name}"
-                await app.send_document(chat_id=TO_CHANNEL_ID, document=message.document.file_id, caption=caption, disable_notification=True)
+                caption = f"**{file_name} Uploaded By : @FSearch2Bot**"
+                await app.send_message(chat_id=TO_CHANNEL_ID, text=caption, disable_notification=True)
             else:
                 text = f"**{message.text}\nUploaded By : @FSearch2Bot**"
                 await app.send_message(chat_id=TO_CHANNEL_ID, text=text, disable_notification=True)
             print("Message forwarded successfully.")
     except Exception as e:
         print(f"Error forwarding message: {e}")
-
 
 print("Bot has started.")
 app.run()
