@@ -29,10 +29,10 @@ async def forward_message(client, message):
                 file_name = re.sub(r'[^\w\s.-]', '', message.document.file_name)  # Remove special characters
                 file_name = file_name.replace('_', ' ')  # Replace underscores with blank space
                 caption = f"**{message.caption}\nUploaded By : @FSearch2Bot**"
-                await app.send_document(chat_id=TO_CHANNEL_ID, document=message.document.file_id, filename=file_name, caption=caption, disable_notification=True)
+                await app.send_document(chat_id=TO_CHANNEL_ID, document=message.document.file_id, caption=caption, disable_notification=True)
             else:
                 text = f"**{message.text}\nUploaded By : @FSearch2Bot**"
-                await app.send_message(chat_id=TO_CHANNEL_ID, text=text, disable_notification=True, parse_mode="MarkdownV2")
+                await app.send_message(chat_id=TO_CHANNEL_ID, text=text, disable_notification=True)
             print("Message forwarded successfully.")
     except Exception as e:
         print(f"Error forwarding message: {e}")
