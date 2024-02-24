@@ -15,20 +15,27 @@ forwarded_files = set()
 async def start(client, message):
     await message.reply_text("I'm a Files/Video/Documents - Text Forward bot !!")
 
+async def send_with_delay(chat_id, text):
+    await asyncio.sleep(1)  # Adjust the delay time as needed
+    await app.send_message(chat_id=chat_id, text=text, disable_notification=True)
+
 @app.on_message(filters.chat(FROM_CHANNEL))
 async def forward_message(client, message):
     try:
+        # Check if the message is not from a private chat and not a poll
         if not message.chat.type == "private" and not message.poll:
+            # Check if the message contains media
             if message.document or message.video:
                 media = message.document or message.video
                 file_name = re.sub(r'[^\w\s.-]', '', media.file_name)  # Remove special characters
                 file_name = file_name.replace('_', ' ')  # Replace underscores with blank space
                 file_name = re.sub(r'\.(mkv|mp4)', '', file_name)  # Remove .mkv and .mp4 extensions
-                caption = f"**{file_name} \n\nUploaded By : @FSearch2Bot**"
-                await app.send_message(chat_id=TO_CHANNEL_ID, text=caption, disable_notification=True)
+                caption = f"**{file_name} Uploaded By : @FSearch2Bot**"
+                await send_with_delay(TO_CHANNEL_ID, caption)
                 print("Message forwarded successfully.")
     except Exception as e:
         print(f"Error forwarding message: {e}")
+
 
 print("Bot has started.")
 app.run()
