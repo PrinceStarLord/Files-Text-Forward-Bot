@@ -32,5 +32,5 @@ async def forward_files(client, message):
         print("TO_CHANNEL ID is wrong or I can't send messages there (make me admin).")
 
 print("Bot has started.")
-app.run_until_disconnected()
+app.run()
 
