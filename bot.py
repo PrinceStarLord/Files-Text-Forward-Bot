@@ -22,7 +22,13 @@ async def forward_message(client, message):
         if not message.chat.type == "private" and not message.poll:
             # Check if the message contains media
             if message.document or message.video:
-                file_name = re.sub(r'[^\w\s.-]', '', message.document.file_name) if message.document else re.sub(r'[^\w\s.-]', '', message.video.file_name)  # Remove special characters
+                if message.document:
+                    file_name = re.sub(r'\.(mkv|mp4)', '', message.document.file_name)  # Remove .mkv and .mp4 extensions
+                else:
+                    file_name = re.sub(r'\.(mkv|mp4)', '', message.video.file_name)  # Remove .mkv and .mp4 extensions
+                
+                # Remove all types of symbols
+                file_name = re.sub(r'[^\w\s]', '', file_name)
                 file_name = file_name.replace('_', ' ')  # Replace underscores with blank space
                 caption = f"**{file_name} Uploaded By : @FSearch2Bot**"
                 await app.send_message(chat_id=TO_CHANNEL_ID, text=caption, disable_notification=True)
