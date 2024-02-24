@@ -21,14 +21,10 @@ async def forward_message(client, message):
         # Check if the message is not from a private chat and not a poll
         if not message.chat.type == "private" and not message.poll:
             # Check if the message contains media
-            if message.photo:
-                photo = message.photo[-1]  # Get the largest photo size
-                caption = f"**{message.caption}\nUploaded By : @FSearch2Bot**"
-                await app.send_photo(chat_id=TO_CHANNEL_ID, photo=photo.file_id, caption=caption, disable_notification=True)
-            elif message.document or message.web_page:
+            if message.document:
                 file_name = re.sub(r'[^\w\s.-]', '', message.document.file_name)  # Remove special characters
                 file_name = file_name.replace('_', ' ')  # Replace underscores with blank space
-                caption = f"**{message.caption}\nUploaded By : @FSearch2Bot**"
+                caption = f"**{message.caption}\nUploaded By : @FSearch2Bot**\nOriginal File Name: {file_name}"
                 await app.send_document(chat_id=TO_CHANNEL_ID, document=message.document.file_id, caption=caption, disable_notification=True)
             else:
                 text = f"**{message.text}\nUploaded By : @FSearch2Bot**"
