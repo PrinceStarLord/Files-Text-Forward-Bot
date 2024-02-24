@@ -55,6 +55,5 @@ async def forward_message(client, message):
     except Exception as e:
         print(f"Error forwarding message: {e}")
 
-
 print("Bot has started.")
 app.run()
