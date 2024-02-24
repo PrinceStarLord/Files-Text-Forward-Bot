@@ -1,7 +1,7 @@
 import re
 import logging
 import asyncio
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 from telethon.tl.functions.users import GetFullUserRequest
 from config import *
 
